@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center flex-column align-items-center gap-4">
+
+  <div class="card bg-secondary text-light p-3 shadow-sm" style="width: 600px;">
+    <pre class="font-monospace mb-0">{{ codeString() }}</pre>
+  </div>
+
+  <div class="wrapper d-flex flex-column align-items-center gap-3 p-4 bg-dark rounded shadow-sm" style="width: 600px;">
+    
+    <h3 class="text-center text-white mb-2">Linked List</h3>
+
+    <input
+        type="text"
+        placeholder="Input any value to add" 
+        [value]="inputValueToAdd()" 
+        (input)="inputValueToAdd.set($any($event.target).value)"     
+    />
+    <button class="btn btn-success w-50" (click)="runAdd()">Run Add function</button>
+
+    <input
+        type="number"
+        placeholder="Input index" 
+        [value]="inputValueToInsertIndex()" 
+        (input)="inputValueToInsertIndex.set($any($event.target).value)"     
+    />
+    <input
+        type="text"
+        placeholder="Input value" 
+        [value]="inputValueToInsert()" 
+        (input)="inputValueToInsert.set($any($event.target).value)"     
+    />
+    <button class="btn btn-success w-50" (click)="runInsert()">Run insert function</button>
+
+    <input
+        type="text"
+        placeholder="Input remove value" 
+        [value]="inputValueToRemove()" 
+        (input)="inputValueToRemove.set($any($event.target).value)"     
+    />
+    <button class="btn btn-success w-50" (click)="runRemove()">Run remove function</button>
+
+    <button class="btn btn-danger w-50" (click)="clearAllList()">Clear list</button>
+
+    <p class="text-light mt-2 w-100 text-center bg-secondary py-2 rounded">
+      Current List: {{ outputValue() }}
+    </p>
+
+    <button class="btn btn-primary w-50" (click)="back()">Back</button>
+  </div>
+
+</div>

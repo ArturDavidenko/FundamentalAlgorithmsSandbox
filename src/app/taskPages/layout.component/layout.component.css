@@ -1,0 +1,24 @@
+.task-card {
+  width: 400px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  padding: 20px;
+}
+
+.taskItem button {  
+  text-align: left;
+  color: #e0e0e0;
+  background-color: #2c2c2c;
+  border: none;
+  text-align: center;
+}
+
+.taskItem{
+  justify-content: center;
+  width: 100%;
+}
+
+.taskItem button:hover {
+  background-color: #3a3a3a;
+}
