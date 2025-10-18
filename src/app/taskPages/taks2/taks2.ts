@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { CodeRunner } from '../../services/code-runner.service';
 import { OnInit } from '../../../../node_modules/@angular/core/index';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 
 class TreeNode {
   constructor(
@@ -10,18 +13,34 @@ class TreeNode {
   ) {}
 }
 
+interface GraphNode {
+  id: string;
+  label: string;
+}
+
+interface GraphLink {
+  id: string;
+  source: string;
+  target: string;
+  label?: string;
+}
+
 @Component({
   selector: 'app-taks2',
-  imports: [],
+  imports: [CommonModule, FormsModule, NgxGraphModule],
   templateUrl: './taks2.html',
-  styleUrl: './taks2.css'
+  styleUrls: ['./taks2.css'],
+  standalone: true
 })
 export class Taks2 implements OnInit{
   numbers: number[] = [];
   root: TreeNode | null = null;
+  inputValue: number = 0;
+
+  nodes: GraphNode[] = [];
+  links: GraphLink[] = [];
 
   constructor(private codeRunner: CodeRunner) {}
-
 
   ngOnInit(): void {
     this.generateAndBuild();
@@ -48,10 +67,10 @@ export class Taks2 implements OnInit{
     this.numbers = this.generateUniqueNumbers(50);
     this.numbers.sort((a, b) => a - b);
     this.root = this.buildBalancedBST(this.numbers);
+    this.updateGraph();
     console.log('BST built successfully');
   }
 
-  /** 3️⃣ Поиск с выводом пути */
   search(value: number, node: TreeNode | null = this.root, path: number[] = []): boolean {
     if (!node) {
       console.log(`Path: ${path.join(' -> ')} | Value not found`);
@@ -62,12 +81,43 @@ export class Taks2 implements OnInit{
 
     if (value === node.value) {
       console.log(`Found ${value}. Path: ${path.join(' -> ')}`);
+      this.updateGraph();
       return true;
     } else if (value < node.value) {
       return this.search(value, node.left, path);
     } else {
       return this.search(value, node.right, path);
     }
+  }
+
+   updateGraph() {
+    this.nodes = [];
+    this.links = [];
+    if (!this.root) return;
+
+    const traverse = (node: TreeNode | null, parentId?: string) => {
+      if (!node) return;
+
+      const nodeId = node.value.toString();
+      this.nodes.push({
+        id: nodeId,
+        label: node.value.toString()
+      });
+
+      if (parentId) {
+        this.links.push({
+          id: `n${parentId} ${nodeId}`,
+          source: parentId,
+          target: nodeId,
+          label: ''
+        });
+      }
+
+      traverse(node.left, nodeId);
+      traverse(node.right, nodeId);
+    };
+
+    traverse(this.root);
   }
 
   insert(value: number): void {
@@ -82,6 +132,7 @@ export class Taks2 implements OnInit{
       this.numbers.push(value);
       this.numbers.sort((a, b) => a - b);
       this.root = this.buildBalancedBST(this.numbers);
+      this.updateGraph();
       console.log(`Inserted ${value}, tree rebuilt.`);
     } else {
       console.log(`Value ${value} already exists.`);
@@ -95,6 +146,7 @@ export class Taks2 implements OnInit{
     }
     this.numbers = this.numbers.filter((v) => v !== value);
     this.root = this.buildBalancedBST(this.numbers);
+    this.updateGraph();
     console.log(`Removed ${value}, tree rebuilt.`);
   }
 
@@ -102,16 +154,19 @@ export class Taks2 implements OnInit{
     const randomValue = this.numbers[Math.floor(Math.random() * this.numbers.length)];
     console.log(`Searching for ${randomValue}`);
     this.search(randomValue);
+    this.updateGraph();
   }
 
   testInsert() {
     const newVal = Math.floor(Math.random() * 1000);
     this.insert(newVal);
+    this.updateGraph();
   }
 
   testRemove() {
     const toRemove = this.numbers[Math.floor(Math.random() * this.numbers.length)];
     this.remove(toRemove);
+    this.updateGraph();
   }
 
 
