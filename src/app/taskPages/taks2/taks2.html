@@ -1,1 +1,39 @@
-<p>taks2 works!</p>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title text-center mb-3">Binary Search Tree Demo</h3>
+  
+        <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
+          <button class="btn btn-primary" (click)="generateAndBuild()">🔄 Generate & Build</button>
+          <!-- <button class="btn btn-info text-white" (click)="testSearch()">🔍 Test Search</button>
+          <button class="btn btn-success" (click)="testInsert()">➕ Test Insert</button>
+          <button class="btn btn-danger" (click)="testRemove()">🗑️ Test Remove</button> -->
+        </div>
+
+        <div class="mb-3">
+          <h5>Current Array ({{ numbers.length }} elements):</h5>
+          <div class="border rounded p-2 bg-light small">
+            {{ numbers.join(', ') }}
+          </div>
+        </div>
+  
+        <!-- <div class="row g-2 mb-3">
+          <div class="col-md-4">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Enter value"
+              [(ngModel)]="inputValue"
+            />
+          </div>
+          <div class="col-md-8 d-flex gap-2 flex-wrap">
+            <button class="btn btn-outline-info" (click)="search(inputValue)">Search</button>
+            <button class="btn btn-outline-success" (click)="insert(inputValue)">Insert</button>
+            <button class="btn btn-outline-danger" (click)="remove(inputValue)">Remove</button>
+          </div>
+        </div> -->
+  
+      </div>
+    </div>
+  </div>
+  

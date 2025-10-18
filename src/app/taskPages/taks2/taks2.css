@@ -1,0 +1,13 @@
+.card {
+    border-radius: 12px;
+  }
+  
+  button {
+    min-width: 140px;
+  }
+  
+  .bg-light {
+    max-height: 120px;
+    overflow-y: auto;
+  }
+  
