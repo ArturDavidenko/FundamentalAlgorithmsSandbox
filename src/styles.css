@@ -6,7 +6,7 @@ body{
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: #121212; /* мягкий тёмный фон, не чисто чёрный */
-    color: #e0e0e0;            /* светлый текст по умолчанию для контраста */
+    background-color: #121212; 
+    color: #e0e0e0;            
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
