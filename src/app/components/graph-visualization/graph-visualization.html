@@ -13,7 +13,6 @@
             </marker>
           </defs>
 
-          <!-- Connections (edges) -->
           <g *ngFor="let edge of positionedEdges">
             <line 
               [attr.x1]="edge.source.x"
@@ -31,7 +30,6 @@
             </text>
           </g>
 
-          <!-- Nodes -->
           <g *ngFor="let node of positionedNodes">
             <circle
               [attr.cx]="node.x"
@@ -56,7 +54,6 @@
               {{node.item.image}}
             </text>
 
-            <!-- Show quantity if available -->
             <text
               *ngIf="getItemQuantity(node.id) > 0"
               [attr.x]="node.x"

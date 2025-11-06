@@ -11,15 +11,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './inventory.css'
 })
 export class Inventory implements OnInit {
-   private craftingService = inject(CraftingService);
+  private craftingService = inject(CraftingService);
   
-  // Используем computed сигнал для реактивного обновления
   inventoryItems = this.craftingService.inventoryItems;
   filteredItems = signal<Item[]>([]);
   searchQuery = signal<string>('');
 
   constructor() {
-    // Используем effect для автоматического обновления при изменении инвентаря
     effect(() => {
       const items = this.inventoryItems();
       this.filterItems();

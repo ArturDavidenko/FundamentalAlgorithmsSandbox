@@ -30,7 +30,6 @@
             <p class="recipe-description">{{currentRecipe()?.name}}</p>
           </div>
 
-          <!-- Required Components - OLD STYLE -->
           <div class="components-breakdown">
             <h4>Required Base Components:</h4>
             <div class="components-list">
@@ -47,7 +46,6 @@
             </div>
           </div>
 
-          <!-- Crafting Check - OLD STYLE -->
           <div class="crafting-check">
             <div *ngIf="craftCheck().canCraft" class="status-success">
               ✅ Can craft! All components available
@@ -56,7 +54,6 @@
               ❌ Missing components
             </div>
 
-            <!-- Missing Items - ALWAYS SHOW -->
             <div class="missing-items" *ngIf="craftCheck().missing.length > 0">
               <h4>Missing quantities:</h4>
               <div class="missing-list">

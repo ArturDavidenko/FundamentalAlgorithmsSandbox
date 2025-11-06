@@ -63,7 +63,6 @@ export class Recipes implements OnInit {
       this.getItemName(recipe.resultItemId).toLowerCase().includes(query)
     );
 
-    // Sorting
     filtered = [...filtered].sort((a, b) => {
       if (sortBy === 'name') {
         return this.getItemName(a.resultItemId).localeCompare(this.getItemName(b.resultItemId));

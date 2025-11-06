@@ -138,20 +138,20 @@ export const RECIPES: Recipe[] = [
   
   // 🔥 ULTIMATE RECIPES FOR ALGORITHM DEMONSTRATION
   
-  // Ultimate Tool - СЛОЖНЫЙ DFS ТЕСТ
+  // Ultimate Tool
   {
     id: 'ultimate_tool_recipe',
     name: 'Ultimate Tool',
     resultItemId: 'ultimate_tool',
     components: [
-      { itemId: 'diamond_sword', quantity: 1 },  // ← Сложная цепочка
-      { itemId: 'diamond_pickaxe', quantity: 1 }, // ← Еще сложная цепочка
-      { itemId: 'golden_sword', quantity: 1 },    // ← Третья сложная цепочка
-      { itemId: 'diamond', quantity: 5 }          // ← Дополнительные ресурсы
+      { itemId: 'diamond_sword', quantity: 1 },  
+      { itemId: 'diamond_pickaxe', quantity: 1 }, 
+      { itemId: 'golden_sword', quantity: 1 },    
+      { itemId: 'diamond', quantity: 5 }         
     ]
   },
   
-  // Master Sword - АЛЬТЕРНАТИВНЫЙ СЛОЖНЫЙ РЕЦЕПТ
+  // Master Sword
   {
     id: 'master_sword_recipe', 
     name: 'Master Sword',

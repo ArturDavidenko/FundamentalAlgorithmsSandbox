@@ -6,11 +6,9 @@ import { ITEMS, RECIPES } from "../data/game-data";
   providedIn: 'root'
 })
 export class CraftingService {
-  // State signals
   private inventory = signal<Item[]>(this.initializeInventory());
   private selectedRecipe = signal<Recipe | null>(null);
 
-  // Computed signals
   public inventoryItems = computed(() => this.inventory());
   public activeItems = computed(() => this.inventory().filter(item => item.isActive));
   public availableRecipes = computed(() => RECIPES);
@@ -83,7 +81,6 @@ export class CraftingService {
     return result;
   }
 
-  // Create recipe graph
   createRecipeGraph(recipe: Recipe): CraftingGraph {
     const nodes: GraphNode[] = [];
     const edges: GraphEdge[] = [];
@@ -116,7 +113,6 @@ export class CraftingService {
     return { nodes, edges };
   }
 
-  // Check if crafting is possible - OLD LOGIC
   canCraft(recipe: Recipe): CraftingCheck {
     const requiredComponents = this.findAllBaseComponents(recipe.resultItemId);
     const missing: RecipeComponent[] = [];
@@ -133,29 +129,24 @@ export class CraftingService {
     return { canCraft: missing.length === 0, missing };
   }
 
-  // Get required components for display (OLD LOGIC)
   getRequiredComponents(recipe: Recipe): RecipeComponent[] {
     return this.findAllBaseComponents(recipe.resultItemId);
   }
 
-  // Check if item is available in inventory
   isItemAvailable(itemId: string): boolean {
     const inventoryItem = this.inventory().find(item => item.id === itemId);
     return (inventoryItem?.quantity || 0) > 0;
   }
 
-  // Get item quantity from inventory
   getItemQuantity(itemId: string): number {
     const inventoryItem = this.inventory().find(item => item.id === itemId);
     return inventoryItem?.quantity || 0;
   }
 
-  // Get item availability status for graph - FIXED VERSION
   getItemStatus(itemId: string): 'available' | 'missing' | 'intermediate' {
     const inventoryItem = this.inventory().find(item => item.id === itemId);
     const hasRecipe = RECIPES.some(recipe => recipe.resultItemId === itemId);
     
-    // FIX: Check if quantity exists and is greater than 0
     if (inventoryItem && (inventoryItem.quantity ?? 0) > 0) {
       return hasRecipe ? 'intermediate' : 'available';
     }
@@ -163,7 +154,6 @@ export class CraftingService {
     return 'missing';
   }
 
-  // Execute crafting with proper validation
   craftItem(recipe: Recipe): boolean {
     const craftCheck = this.canCraft(recipe);
     
@@ -172,12 +162,10 @@ export class CraftingService {
       return false;
     }
 
-    // Calculate exactly what components we need to use
     const requiredComponents = this.findAllBaseComponents(recipe.resultItemId);
     
     let updatedInventory = [...this.inventory()];
-    
-    // Remove used components
+
     for (const comp of requiredComponents) {
       const itemIndex = updatedInventory.findIndex(item => item.id === comp.itemId);
       if (itemIndex !== -1) {
@@ -193,7 +181,6 @@ export class CraftingService {
       }
     }
 
-    // Add crafted item
     const resultItem = ITEMS.find(item => item.id === recipe.resultItemId);
     if (resultItem) {
       const existingItemIndex = updatedInventory.findIndex(item => item.id === resultItem.id);
@@ -232,22 +219,21 @@ export class CraftingService {
     this.selectedRecipe.set(null);
   }
 
-  // Utility method to get item by ID
   getItemById(itemId: string): Item | undefined {
     return ITEMS.find(item => item.id === itemId);
   }
 
-  // Utility method to get recipe by result item ID
+
   getRecipeByResultItemId(itemId: string): Recipe | undefined {
     return RECIPES.find(recipe => recipe.resultItemId === itemId);
   }
 
-  // Reset inventory to initial state
+
   resetInventory(): void {
     this.inventory.set(this.initializeInventory());
   }
 
-  // Add items to inventory (for testing)
+
   addItemsToInventory(items: { itemId: string, quantity: number }[]): void {
     this.inventory.update(currentInventory => {
       const newInventory = [...currentInventory];
@@ -275,7 +261,6 @@ export class CraftingService {
     });
   }
 
-  // Remove items from inventory (for testing)
   removeItemsFromInventory(items: { itemId: string, quantity: number }[]): void {
     this.inventory.update(currentInventory => {
       let newInventory = [...currentInventory];
@@ -302,12 +287,10 @@ export class CraftingService {
     });
   }
 
-  // Get all recipes that can be crafted with current inventory
   getCraftableRecipes(): Recipe[] {
     return RECIPES.filter(recipe => this.canCraft(recipe).canCraft);
   }
 
-  // Get recipes that require specific item
   getRecipesRequiringItem(itemId: string): Recipe[] {
     return RECIPES.filter(recipe => 
       this.findAllBaseComponents(recipe.resultItemId)
@@ -315,17 +298,14 @@ export class CraftingService {
     );
   }
 
-  // Check if item is a base component (has no recipe)
   isBaseComponent(itemId: string): boolean {
     return !RECIPES.some(recipe => recipe.resultItemId === itemId);
   }
 
-  // Get all base components needed for an item
   getBaseComponents(itemId: string): RecipeComponent[] {
     return this.findAllBaseComponents(itemId);
   }
 
-  // Calculate total resources needed for multiple items
   calculateTotalResources(items: { itemId: string, quantity: number }[]): RecipeComponent[] {
     let totalComponents: RecipeComponent[] = [];
     

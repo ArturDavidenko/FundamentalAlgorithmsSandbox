@@ -10,7 +10,7 @@ import { CraftingService } from '../../services/crafting.service';
   styleUrl: './graph-visualization.css'
 })
 export class GraphVisualization implements OnChanges {
-   @Input() graph: CraftingGraph | null = null;
+  @Input() graph: CraftingGraph | null = null;
   private craftingService = inject(CraftingService);
 
   svgWidth = 1000;
@@ -29,7 +29,6 @@ export class GraphVisualization implements OnChanges {
 
     const levels = new Map<number, any[]>();
     
-    // Группируем узлы по уровням
     this.graph.nodes.forEach(node => {
       const level = node.level || 0;
       if (!levels.has(level)) {
@@ -38,14 +37,12 @@ export class GraphVisualization implements OnChanges {
       levels.get(level)!.push(node);
     });
 
-    // Автоматически подбираем размеры
     const maxLevel = Math.max(...levels.keys());
     const maxNodesInLevel = Math.max(...Array.from(levels.values()).map(nodes => nodes.length));
     
     this.svgWidth = Math.max(1000, maxNodesInLevel * 150);
     this.svgHeight = Math.max(600, (maxLevel + 1) * 150);
 
-    // Позиционируем узлы
     this.positionedNodes = [];
     levels.forEach((nodes, level) => {
       const y = 100 + (level / maxLevel) * (this.svgHeight - 200);
@@ -57,7 +54,6 @@ export class GraphVisualization implements OnChanges {
       });
     });
 
-    // Создаем соединения
     this.positionedEdges = this.graph.edges.map(edge => {
       const source = this.positionedNodes.find(n => n.id === edge.from);
       const target = this.positionedNodes.find(n => n.id === edge.to);
