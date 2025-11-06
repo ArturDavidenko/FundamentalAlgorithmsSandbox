@@ -1,0 +1,47 @@
+ .app-container {
+    background-color: #121212;
+    color: #ffffff;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #333;
+}
+
+.app-header h1 {
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    font-size: 2.5rem;
+}
+
+.app-header p {
+    margin: 0;
+    color: #cccccc;
+    font-size: 1.2rem;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 300px 1fr 350px;
+    gap: 20px;
+    min-height: 70vh;
+}
+
+.panel {
+    background: #1e1e1e;
+    border-radius: 10px;
+    border: 1px solid #333;
+    overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    }
+}

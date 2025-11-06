@@ -1,0 +1,90 @@
+<div class="graph-visualization">
+      <div class="graph-svg-container">
+        <svg [attr.width]="svgWidth" [attr.height]="svgHeight" class="graph-svg">
+          <defs>
+            <marker 
+              id="arrowhead" 
+              markerWidth="10" 
+              markerHeight="7" 
+              refX="9" 
+              refY="3.5" 
+              orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+            </marker>
+          </defs>
+
+          <!-- Connections (edges) -->
+          <g *ngFor="let edge of positionedEdges">
+            <line 
+              [attr.x1]="edge.source.x"
+              [attr.y1]="edge.source.y"
+              [attr.x2]="edge.target.x"
+              [attr.y2]="edge.target.y"
+              class="connection-line"
+              marker-end="url(#arrowhead)"/>
+            
+            <text 
+              [attr.x]="(edge.source.x + edge.target.x) / 2"
+              [attr.y]="(edge.source.y + edge.target.y) / 2 - 8"
+              class="edge-label">
+              {{edge.label}}
+            </text>
+          </g>
+
+          <!-- Nodes -->
+          <g *ngFor="let node of positionedNodes">
+            <circle
+              [attr.cx]="node.x"
+              [attr.cy]="node.y"
+              r="30"
+              [class]="getNodeClass(node)"
+              (click)="onNodeClick(node)"/>
+            
+            <text
+              [attr.x]="node.x"
+              [attr.y]="node.y - 40"
+              class="node-label">
+              {{node.label}}
+            </text>
+            
+            <text
+              [attr.x]="node.x"
+              [attr.y]="node.y"
+              class="node-icon"
+              text-anchor="middle"
+              dy=".3em">
+              {{node.item.image}}
+            </text>
+
+            <!-- Show quantity if available -->
+            <text
+              *ngIf="getItemQuantity(node.id) > 0"
+              [attr.x]="node.x"
+              [attr.y]="node.y + 50"
+              class="node-quantity"
+              text-anchor="middle">
+              ({{getItemQuantity(node.id)}})
+            </text>
+          </g>
+        </svg>
+      </div>
+      
+      <div class="graph-legend">
+        <div class="legend-item">
+          <div class="legend-color final-item"></div>
+          <span>Final Item</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color intermediate-item"></div>
+          <span>Available Intermediate</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color available-item"></div>
+          <span>Available Base Resource</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color missing-item"></div>
+          <span>Missing Resource</span>
+        </div>
+      </div>
+    </div>

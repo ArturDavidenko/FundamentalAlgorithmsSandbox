@@ -1,0 +1,51 @@
+<div class="recipe-list">
+      <div class="recipes-header">
+        <h2>📋 Crafting Recipes</h2>
+      </div>
+      
+      <div class="search-section">
+        <input 
+          type="text" 
+          placeholder="Search recipes..."
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          class="search-input">
+        
+        <select [value]="sortBy()" (change)="onSortChange($event)" class="sort-select">
+          <option value="name">By Name</option>
+          <option value="complexity">By Complexity</option>
+        </select>
+      </div>
+
+      <div class="recipes-section">
+        <h3>Available Recipes</h3>
+        <div class="recipes-scroll">
+          <div 
+            *ngFor="let recipe of filteredRecipes()" 
+            class="recipe-item"
+            [class.selected]="currentRecipe()?.id === recipe.id"
+            (click)="selectRecipe(recipe)">
+            <div class="recipe-content">
+              <div class="recipe-icon">{{getItemImage(recipe.resultItemId)}}</div>
+              <div class="recipe-info">
+                <div class="recipe-name">{{getItemName(recipe.resultItemId)}}</div>
+                <div class="recipe-desc">{{recipe.name}}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="filteredRecipes().length === 0" class="no-recipes">
+            No recipes found
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="currentRecipeGraph()" class="graph-section">
+        <div class="graph-header">
+          <h3>Recipe Graph: {{getItemName(currentRecipe()?.resultItemId || '')}}</h3>
+        </div>
+        <div class="graph-container">
+          <app-graph-visualization [graph]="currentRecipeGraph()"></app-graph-visualization>
+        </div>
+      </div>
+    </div>

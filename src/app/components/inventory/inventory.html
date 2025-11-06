@@ -1,0 +1,41 @@
+<div class="inventory">
+      <div class="inventory-header">
+        <h2>📦 Inventory</h2>
+      </div>
+      
+      <div class="search-box">
+        <input 
+          type="text" 
+          placeholder="Search items..."
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          class="search-input">
+      </div>
+      
+      <div class="inventory-items">
+        <div 
+          *ngFor="let item of filteredItems()" 
+          class="inventory-item"
+          [class.active]="item.isActive"
+          (click)="toggleActive(item.id)">
+          <div class="item-content">
+            <div class="item-main">
+              <span class="item-icon">{{item.image}}</span>
+              <span class="item-name">{{item.name}}</span>
+            </div>
+            <div class="item-details">
+              <span class="item-quantity" *ngIf="item.quantity !== undefined">
+                {{item.quantity}} pcs
+              </span>
+              <span class="item-status" [class.active]="item.isActive">
+                {{item.isActive ? '✅ Active' : '⚪ Inactive'}}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div *ngIf="filteredItems().length === 0" class="no-items">
+          No items found
+        </div>
+      </div>
+    </div>

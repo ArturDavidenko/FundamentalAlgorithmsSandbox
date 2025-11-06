@@ -1,0 +1,87 @@
+<div class="crafting-area">
+      <div class="crafting-header">
+        <h2>⚒️ Crafting Area</h2>
+        <button 
+          *ngIf="currentRecipe()" 
+          class="back-button"
+          (click)="clearRecipe()">
+          ← Back to Recipes
+        </button>
+      </div>
+
+      <div class="active-items-section">
+        <h3>Active Items</h3>
+        <div class="active-items">
+          <div 
+            *ngFor="let item of activeItems()" 
+            class="active-item">
+            {{item.image}} {{item.name}}
+          </div>
+          <div *ngIf="activeItems().length === 0" class="no-active-items">
+            No active items
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="currentRecipe()" class="recipe-section">
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <h3>{{getRecipeItem()?.name}} {{getRecipeItem()?.image}}</h3>
+            <p class="recipe-description">{{currentRecipe()?.name}}</p>
+          </div>
+
+          <!-- Required Components - OLD STYLE -->
+          <div class="components-breakdown">
+            <h4>Required Base Components:</h4>
+            <div class="components-list">
+              <div *ngFor="let component of getRequiredComponents()" class="component-item">
+                <span class="component-name">{{getItemName(component.itemId)}} {{getItemImage(component.itemId)}}</span>
+                <span class="component-quantity">x{{component.quantity}}</span>
+                <span class="component-status" [class.available]="isComponentAvailable(component)" [class.missing]="!isComponentAvailable(component)">
+                  {{isComponentAvailable(component) ? '✅' : '❌'}}
+                </span>
+                <span class="component-inventory" *ngIf="getItemQuantity(component.itemId) > 0">
+                  (have: {{getItemQuantity(component.itemId)}})
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Crafting Check - OLD STYLE -->
+          <div class="crafting-check">
+            <div *ngIf="craftCheck().canCraft" class="status-success">
+              ✅ Can craft! All components available
+            </div>
+            <div *ngIf="!craftCheck().canCraft" class="status-warning">
+              ❌ Missing components
+            </div>
+
+            <!-- Missing Items - ALWAYS SHOW -->
+            <div class="missing-items" *ngIf="craftCheck().missing.length > 0">
+              <h4>Missing quantities:</h4>
+              <div class="missing-list">
+                <div *ngFor="let missing of craftCheck().missing" class="missing-item">
+                  <span class="item-name">{{getItemName(missing.itemId)}} {{getItemImage(missing.itemId)}}</span>
+                  <span class="item-quantity">x{{missing.quantity}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button 
+            class="craft-button"
+            [class.disabled]="!craftCheck().canCraft"
+            (click)="craft()"
+            [disabled]="!craftCheck().canCraft">
+            {{ craftCheck().canCraft ? '🛠️ Craft Item' : '❌ Cannot Craft' }}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="!currentRecipe()" class="no-recipe">
+        <div class="no-recipe-content">
+          <h3>Select Recipe</h3>
+          <p>Choose a recipe from the list on the right to start crafting</p>
+        </div>
+      </div>
+    </div>
