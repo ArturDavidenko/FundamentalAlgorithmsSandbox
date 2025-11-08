@@ -359,12 +359,12 @@ export class Taks3 {
       
       const exampleData = [
         { id: '1', x: 300, y: 100, edges: '2,3' },
-        { id: '2', x: 200, y: 200, edges: '4,5' },
-        { id: '3', x: 400, y: 200, edges: '6,7' },
-        { id: '4', x: 150, y: 300, edges: '' },
-        { id: '5', x: 250, y: 300, edges: '' },
-        { id: '6', x: 350, y: 300, edges: '' },
-        { id: '7', x: 450, y: 300, edges: '' }
+        { id: '2', x: 200, y: 200, edges: '1,4,5' }, 
+        { id: '3', x: 400, y: 200, edges: '1,6,7' }, 
+        { id: '4', x: 150, y: 300, edges: '2' },     
+        { id: '5', x: 250, y: 300, edges: '2' },     
+        { id: '6', x: 350, y: 300, edges: '3' },     
+        { id: '7', x: 450, y: 300, edges: '3' }      
       ];
       
       exampleData.forEach(data => {

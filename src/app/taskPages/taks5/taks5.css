@@ -1,0 +1,12 @@
+.table-responsive {
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.table-bordered td, .table-bordered th {
+  border: 1px solid #495057 !important;
+}
+
+.bg-dark {
+  background-color: #343a40 !important;
+}
